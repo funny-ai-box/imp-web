@@ -4062,6 +4062,7 @@ __metadata:
     eslint-plugin-react: ^7.27.1
     eslint-plugin-react-hooks: ^4.3.0
     husky: ^7.0.2
+    jsencrypt: ^3.3.2
     less: ^4.1.2
     less-loader: 7.3.0
     lodash: ^4.17.21
@@ -6801,6 +6802,13 @@ __metadata:
   version: 1.1.0
   resolution: "jsbn@npm:1.1.0"
   checksum: 944f924f2bd67ad533b3850eee47603eed0f6ae425fd1ee8c760f477e8c34a05f144c1bd4f5a5dd1963141dc79a2c55f89ccc5ab77d039e7077f3ad196b64965
+  languageName: node
+  linkType: hard
+
+"jsencrypt@npm:^3.3.2":
+  version: 3.3.2
+  resolution: "jsencrypt@npm:3.3.2"
+  checksum: b78e896dc1c3d6bb2e9ce2437e679c1abd4dda098c29f3d1d00024543b03f7e962d0be08b5c1024a94e400c32eb40c720f8293cb5fe6b4b3859cf6b31eabf6a4
   languageName: node
   linkType: hard
 
