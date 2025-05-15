@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Table, Button, Input, Select, Space, message, Tag, Typography, Tooltip } from 'antd';
 import { PlusOutlined, EyeOutlined, SearchOutlined, MessageOutlined } from '@ant-design/icons';
-import { listKnowledgeBases } from '../api';
-import CreateKnowledgeBaseModal from '../components/KnowledgeBase/CreateKnowledgeBaseModal';
+import { listKnowledgeBases } from '../../api';
+import CreateKnowledgeBaseModal from '../../components/KnowledgeBase/CreateKnowledgeBaseModal';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
