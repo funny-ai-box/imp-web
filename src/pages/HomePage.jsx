@@ -29,15 +29,7 @@ const HomePage = () => {
               </Card>
             </Link>
           </Col>
-          <Col xs={24} sm={12} md={8}>
-            <Link to="/foundation-models">
-              <Card hoverable>
-                <ApiOutlined style={{ fontSize: '24px', marginRight: '8px' }} />
-                <Title level={4}>浏览基础模型</Title>
-                <Paragraph>查看可用的 LLM 提供商及其模型。</Paragraph>
-              </Card>
-            </Link>
-          </Col>
+         
           <Col xs={24} sm={12} md={8}>
             <Link to="/basic-config/llm-config">
               <Card hoverable>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
-import LlmConfigPage from './LlmConfigPage';
-import LlmProviderManagePage from './LlmProviderManagePage';
+import LlmConfigPage from '../components/BasicConfig/LlmConfigPage';
+import LlmProviderManagePage from '../components/BasicConfig/LlmProviderManagePage';
 
 const { TabPane } = Tabs;
 
