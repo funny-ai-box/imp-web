@@ -6,11 +6,14 @@ import {
   BookOutlined,
   LogoutOutlined,
   ApiOutlined,
+  SettingOutlined,
+  AppstoreOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../../contexts/AuthContext';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
+const { SubMenu } = Menu;
 
 const MainLayout = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -22,36 +25,46 @@ const MainLayout = () => {
     logout();
   };
 
-  // Determine which menu item should be selected based on current path
+  // 根据当前路径确定应该选中哪个菜单项
   const getSelectedKey = () => {
     const path = location.pathname;
     if (path === '/') return '1';
     if (path.startsWith('/knowledge-bases')) return '2';
     if (path.startsWith('/foundation-models')) return '3';
-    return '1'; // Default to home
+    if (path.startsWith('/basic-config/llm-config')) return '4-1';
+    return '1'; // 默认选中首页
   };
 
-  // Define menu items
+  // 定义菜单项
   const menuItems = [
     {
       key: '1',
       icon: <HomeOutlined />,
-      label: <Link to="/">Home</Link>,
+      label: <Link to="/">首页</Link>,
     },
     {
       key: '2',
       icon: <BookOutlined />,
-      label: <Link to="/knowledge-bases">Knowledge Bases</Link>,
+      label: <Link to="/knowledge-bases">知识库</Link>,
     },
     {
       key: '3',
       icon: <ApiOutlined />,
-      label: <Link to="/foundation-models">Foundation Models</Link>,
+      label: <Link to="/foundation-models">基础模型</Link>,
     },
+    {
+      key: '4',
+      icon: <SettingOutlined />,
+      label: '基础配置',
+      children: [
+        {
+          key: '4-1', 
+          icon: <AppstoreOutlined />,
+          label: <Link to="/basic-config/llm-config">大模型配置</Link>,
+        }
+      ]
+    }
   ];
-
-  // If not authenticated, don't render the main layout at all
-  // This is handled by the ProtectedRoute component in App.jsx
   
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -68,11 +81,11 @@ const MainLayout = () => {
       </Sider>
       <Layout>
         <Header style={{ padding: '0 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#001529' }}>
-          <Title level={3} style={{color: 'white', margin: 0}}>IMP Client</Title>
+          <Title level={3} style={{color: 'white', margin: 0}}>IMP 客户端</Title>
           <div>
             {isAuthenticated && (
               <Button type="primary" danger icon={<LogoutOutlined />} onClick={handleLogout}>
-                Logout
+                退出登录
               </Button>
             )}
           </div>

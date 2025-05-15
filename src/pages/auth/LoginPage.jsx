@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, Card, message, Typography } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { loginUser } from '../../api'; // Fixed path
-import { useAuth } from '../../contexts/AuthContext'; // Fixed path
+import { loginUser } from '../../api';
+import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 const { Title } = Typography;
@@ -39,7 +39,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Card title={<Title level={3}>Login</Title>}>
+    <Card title={<Title level={3}>用户登录</Title>}>
       <Form
         name="login"
         initialValues={{ remember: true }}
@@ -47,22 +47,22 @@ const LoginPage = () => {
       >
         <Form.Item
           name="phone"
-          rules={[{ required: true, message: 'Please input your Phone!' }]}
+          rules={[{ required: true, message: '请输入您的手机号!' }]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Phone" />
+          <Input prefix={<UserOutlined />} placeholder="手机号" />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
+          rules={[{ required: true, message: '请输入您的密码!' }]}
         >
-          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+          <Input.Password prefix={<LockOutlined />} placeholder="密码" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Log in
+            登录
           </Button>
         </Form.Item>
-        Or <Link to="/register">register now!</Link>
+        还没有账号？<Link to="/register">立即注册!</Link>
       </Form>
     </Card>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Card, message, Typography } from 'antd';
 import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons';
-import { registerUser } from '../../api'; // Fixed path
+import { registerUser } from '../../api';
 import { useNavigate, Link } from 'react-router-dom';
 
 const { Title } = Typography;
@@ -37,50 +37,50 @@ const RegisterPage = () => {
   };
 
   return (
-    <Card title={<Title level={3}>Register</Title>}>
+    <Card title={<Title level={3}>用户注册</Title>}>
       <Form name="register" onFinish={onFinish}>
         <Form.Item
           name="username"
-          rules={[{ required: true, message: 'Please input your Username!' }]}
+          rules={[{ required: true, message: '请输入您的用户名！' }]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Username" />
+          <Input prefix={<UserOutlined />} placeholder="用户名" />
         </Form.Item>
         <Form.Item
           name="phone"
-          rules={[{ required: true, message: 'Please input your Phone!' }]}
+          rules={[{ required: true, message: '请输入您的手机号！' }]}
         >
-          <Input prefix={<PhoneOutlined />} placeholder="Phone" />
+          <Input prefix={<PhoneOutlined />} placeholder="手机号" />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
+          rules={[{ required: true, message: '请输入您的密码！' }]}
         >
-          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
+          <Input.Password prefix={<LockOutlined />} placeholder="密码" />
         </Form.Item>
         <Form.Item
           name="confirm"
           dependencies={['password']}
           hasFeedback
           rules={[
-            { required: true, message: 'Please confirm your password!' },
+            { required: true, message: '请确认您的密码！' },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                return Promise.reject(new Error('两次输入的密码不匹配！'));
               },
             }),
           ]}
         >
-          <Input.Password prefix={<LockOutlined />} placeholder="Confirm Password" />
+          <Input.Password prefix={<LockOutlined />} placeholder="确认密码" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Register
+            注册
           </Button>
         </Form.Item>
-        Already have an account? <Link to="/login">Login here!</Link>
+        已有账号？<Link to="/login">立即登录!</Link>
       </Form>
     </Card>
   );

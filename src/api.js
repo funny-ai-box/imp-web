@@ -150,4 +150,24 @@ export const getRecentQueries = (kbId, params) => apiClient.get(`/v1/knowledge_b
 export const getPopularQueries = (kbId, params) => apiClient.get(`/v1/knowledge_base/query/popular?kb_id=${kbId}`, { params });
 export const queryPublicKnowledgeBase = (data) => apiClient.post('/v1/knowledge_base/query/public/ask', data);
 
+// LLM 提供商配置相关 API
+export const getLlmProviderConfigList = () => apiClient.get('/v1/foundation/llm_provider_config/list');
+export const getLlmProviderConfig = (configId) => apiClient.post('/v1/foundation/llm_provider_config/get', { config_id: configId });
+export const getDefaultLlmProviderConfig = (providerType) => apiClient.get(`/v1/foundation/llm_provider_config/default?provider_type=${providerType}`);
+export const createLlmProviderConfig = (data) => apiClient.post('/v1/foundation/llm_provider_config/create', data);
+export const updateLlmProviderConfig = (data) => apiClient.post('/v1/foundation/llm_provider_config/update', data);
+export const deleteLlmProviderConfig = (configId) => apiClient.post('/v1/foundation/llm_provider_config/delete', { config_id: configId });
+export const setDefaultLlmProviderConfig = (configId) => apiClient.post('/v1/foundation/llm_provider_config/set_default', { config_id: configId });
+
+// LLM 服务商管理相关 API (管理员功能)
+// 注意：这些 API 接口可能需要在后端实现，这里只是示例
+export const createLlmProvider = (data) => apiClient.post('/v1/admin/llm_provider/create', data);
+export const updateLlmProvider = (providerId, data) => apiClient.post('/v1/admin/llm_provider/update', { provider_id: providerId, ...data });
+export const deleteLlmProvider = (providerId) => apiClient.post('/v1/admin/llm_provider/delete', { provider_id: providerId });
+
+// LLM 模型管理相关 API (管理员功能)
+export const createLlmModel = (data) => apiClient.post('/v1/admin/llm_model/create', data);
+export const updateLlmModel = (modelId, data) => apiClient.post('/v1/admin/llm_model/update', { model_id: modelId, ...data });
+export const deleteLlmModel = (modelId, providerId) => apiClient.post('/v1/admin/llm_model/delete', { model_id: modelId, provider_id: providerId });
+
 export default apiClient;
