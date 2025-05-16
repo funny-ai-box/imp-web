@@ -1,5 +1,5 @@
 import axios from 'axios';
-import rsaEncrypt from './utils/RSAEncrypt';
+import rsaEncrypt from '../utils/RSAEncrypt';
 
 // 基础URL包含/api
 const API_BASE_URL = '/api';

@@ -7,6 +7,7 @@ import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import KnowledgeBasesPage from '../pages/kn/KnowledgeBasesPage';
 import KnowledgeBaseDetailPage from '../pages/kn/KnowledgeBaseDetailPage';
+import VocBotPage from '../pages/external/VocBotPage';
 
 import BasicConfigPage from '../pages/BasicConfigPage';
 
@@ -97,6 +98,13 @@ const authRoutes = [
     element: <RegisterPage />
   }
 ];
+const externalRoutes = [
+  {
+    path: "/external/voc-bot/:app_key",
+    element: <VocBotPage />
+  },
+  // Add other external routes here
+];
 
 // Function to extract routes from menu config
 const extractRoutesFromMenu = (menuItems) => {
@@ -144,6 +152,7 @@ const mainRoutes = [
 const routerConfig = {
   authRoutes,
   mainRoutes,
+  externalRoutes,
   menuConfig
 };
 

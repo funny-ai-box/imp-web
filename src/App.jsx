@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import MainLayout from './components/Layout/MainLayout';
 import AuthLayout from './components/Layout/AuthLayout';
+import ExternalLayout from './components/Layout/ExternalLayout';
 import routerConfig from './router';
 
 function App() {
@@ -14,6 +15,15 @@ function App() {
             {routerConfig.authRoutes.map((route, index) => (
               <Route 
                 key={`auth-route-${index}`} 
+                path={route.path} 
+                element={route.element} 
+              />
+            ))}
+          </Route>
+             <Route element={<ExternalLayout />}>
+            {routerConfig.externalRoutes.map((route, index) => (
+              <Route 
+                key={`external-route-${index}`} 
                 path={route.path} 
                 element={route.element} 
               />
