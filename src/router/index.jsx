@@ -1,3 +1,4 @@
+
 import { Navigate } from 'react-router-dom';
 import ProtectedRoute from '../components/Route/ProtectedRoute';
 
@@ -8,16 +9,17 @@ import RegisterPage from '../pages/auth/RegisterPage';
 import KnowledgeBasesPage from '../pages/kn/KnowledgeBasesPage';
 import KnowledgeBaseDetailPage from '../pages/kn/KnowledgeBaseDetailPage';
 import VocBotPage from '../pages/external/VocBotPage';
-
 import BasicConfigPage from '../pages/BasicConfigPage';
+import XhsGenerationLogsPage from '../pages/applications/XhsGenerationLogsPage';
 
 // Import icons
 import {
   HomeOutlined,
   BookOutlined,
-
   SettingOutlined,
   AppstoreOutlined,
+  AppstoreAddOutlined,
+  HistoryOutlined
 } from '@ant-design/icons';
 
 // Define menu configuration with routes embedded
@@ -52,7 +54,25 @@ const menuConfig = [
       }
     ]
   },
- 
+  {
+    key: '3',
+    icon: <AppstoreAddOutlined />,
+    label: '应用中心',
+    children: [
+      {
+        key: '3-1', 
+        icon: <HistoryOutlined />,
+        label: '调用日志',
+        path: '/applications/logs',
+        element: (
+          <ProtectedRoute>
+            <XhsGenerationLogsPage />
+          </ProtectedRoute>
+        )
+      }
+      // 可以在这里添加更多应用中心的子页面
+    ]
+  },
   {
     key: '4',
     icon: <SettingOutlined />,
@@ -98,6 +118,7 @@ const authRoutes = [
     element: <RegisterPage />
   }
 ];
+
 const externalRoutes = [
   {
     path: "/external/voc-bot/:app_key",

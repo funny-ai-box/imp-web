@@ -12,9 +12,7 @@ const ExternalLayout = () => {
       <Content>
         <Outlet />
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        IMP-SERVER External © {new Date().getFullYear()}
-      </Footer>
+     
     </Layout>
   );
 };

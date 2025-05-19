@@ -51,15 +51,26 @@ export const volcanoBot = {
   // Stream generate content
   generateStream: async (prompt, onMessage, onReferences, onError, onComplete) => {
     try {
-      const response = await externalApiClient.post('/v1/external/applications/volcano_bot/generate', 
-        { prompt, stream: true },
-        { responseType: 'stream' }
-      );
+      // Using fetch instead of axios for better stream handling
+      const response = await fetch('/api/v1/external/applications/volcano_bot/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add the app key from URL
+          'X-App-Key': window.location.pathname.split('/').filter(part => part)[2]
+        },
+        body: JSON.stringify({ prompt, stream: true })
+      });
 
-      const reader = response.data.getReader();
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
       const decoder = new TextDecoder();
-      let buffer = '';
+      let buffer = "";
 
+      // Function to process the stream chunks
       const processChunk = async ({ done, value }) => {
         if (done) {
           onComplete && onComplete();
@@ -69,40 +80,35 @@ export const volcanoBot = {
         // Decode the chunk and add it to our buffer
         buffer += decoder.decode(value, { stream: true });
         
-        // Process complete events in the buffer
-        let eventEnd = buffer.indexOf('\n\n');
-        while (eventEnd > -1) {
-          const eventText = buffer.substring(0, eventEnd);
-          buffer = buffer.substring(eventEnd + 2);
-          
-          // Process the event
-          if (eventText.trim()) {
-            const eventLines = eventText.split('\n');
-            const eventTypeMatch = eventLines[0].match(/^event: (.+)$/);
-            const eventDataLine = eventLines.find(line => line.startsWith('data: '));
-            
-            if (eventTypeMatch && eventDataLine) {
-              const eventType = eventTypeMatch[1];
-              let eventData;
+        // Process each line that starts with "data: "
+        const lines = buffer.split('\n');
+        let newBuffer = "";
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.substring(6));
               
-              try {
-                eventData = JSON.parse(eventDataLine.substring(6));
-              } catch (err) {
-                console.error('Error parsing event data:', err);
-                continue;
+              // Check event type and call appropriate handler
+              if (data.event === 'content' || data.event === 'message') {
+                onMessage && onMessage({ text: data.data });
+              } else if (data.event === 'references') {
+                onReferences && onReferences(data.data);
+              } else if (data.event === 'done') {
+                // Stream is done
+                onComplete && onComplete();
               }
-              
-              // Handle different event types
-              if (eventType === 'message') {
-                onMessage && onMessage(eventData);
-              } else if (eventType === 'references') {
-                onReferences && onReferences(eventData);
-              }
+            } catch (e) {
+              console.error('Error parsing JSON:', e, line.substring(6));
             }
+          } else {
+            // Keep incomplete lines in the buffer
+            newBuffer += line + '\n';
           }
-          
-          eventEnd = buffer.indexOf('\n\n');
         }
+        
+        // Update buffer with any incomplete data
+        buffer = newBuffer;
         
         // Continue reading
         return reader.read().then(processChunk);
@@ -111,6 +117,7 @@ export const volcanoBot = {
       // Start reading the stream
       reader.read().then(processChunk);
     } catch (error) {
+      console.error('Stream error:', error);
       onError && onError(error);
     }
   }
