@@ -20,7 +20,8 @@ import {
   Rate,
   Image,
   Tabs,
-  Collapse
+  Collapse,
+  Empty
 } from 'antd';
 import {
   SearchOutlined,
@@ -197,13 +198,7 @@ const XhsGenerationLogsPage = () => {
       key: 'id',
       width: 80,
     },
-    {
-      title: '标题',
-      dataIndex: 'title',
-      key: 'title',
-      ellipsis: true,
-      render: (text) => text ? <Tooltip title={text}>{text}</Tooltip> : '-'
-    },
+  
     {
       title: '提示词',
       dataIndex: 'prompt',
@@ -221,6 +216,14 @@ const XhsGenerationLogsPage = () => {
           {status === 'completed' ? '成功' : status === 'failed' ? '失败' : '处理中'}
         </Tag>
       )
+    },
+    {
+      title: '失败原因',
+      dataIndex: 'error_message',
+      key: 'error_message',
+
+      render: (text) => text || '-'
+
     },
     {
       title: '模型',
@@ -251,13 +254,7 @@ const XhsGenerationLogsPage = () => {
       width: 100,
       render: (tokens) => tokens ? `${tokens}` : '-'
     },
-    {
-      title: '评分',
-      dataIndex: 'user_rating',
-      key: 'user_rating',
-      width: 120,
-      render: (rating) => rating ? <Rate disabled defaultValue={rating} /> : '-'
-    },
+
     {
       title: '创建时间',
       dataIndex: 'created_at',
@@ -449,7 +446,7 @@ const XhsGenerationLogsPage = () => {
           onFinish={handleSearch}
         >
           <Row gutter={16}>
-            <Col xs={24} sm={12} md={8} lg={6}>
+            <Col xs={12} sm={6} md={4} lg={4}>
               <Form.Item name="status" label="状态">
                 <Select allowClear placeholder="选择状态">
                   <Option value="completed">成功</Option>
@@ -459,12 +456,22 @@ const XhsGenerationLogsPage = () => {
               </Form.Item>
             </Col>
             <Col xs={24} sm={12} md={8} lg={6}>
+              <Form.Item name="provider_type" label="提供商">
+                <Select allowClear placeholder="选择提供商">
+                
+                  <Option value="Yanxi">言犀</Option>
+                  <Option value="Volcano">火山引擎</Option>
+         
+                </Select>
+              </Form.Item>
+            </Col>
+              <Col xs={24} sm={12} md={8} lg={6}>
               <Form.Item name="model_id" label="模型">
                 <Select allowClear placeholder="选择模型">
-                  <Option value="gpt-4o">GPT-4o</Option>
+                
                   <Option value="Chatrhino-750B">Chatrhino-750B</Option>
-                  <Option value="claude-3-opus-20240229">Claude 3 Opus</Option>
-                  <Option value="gpt-3.5-turbo">GPT-3.5 Turbo</Option>
+                  <Option value="doubao-1.5-vision-pro-32k-250115">doubao-1.5-vision-pro-32k-250115</Option>
+         
                 </Select>
               </Form.Item>
             </Col>
@@ -473,11 +480,7 @@ const XhsGenerationLogsPage = () => {
                 <RangePicker style={{ width: '100%' }} />
               </Form.Item>
             </Col>
-            <Col xs={24} sm={12} md={8} lg={6}>
-              <Form.Item name="app_id" label="应用ID">
-                <Input placeholder="输入应用ID" />
-              </Form.Item>
-            </Col>
+           
             <Col xs={24} sm={24} md={24} lg={24} style={{ textAlign: 'right' }}>
               <Space>
                 <Button onClick={handleReset}>重置</Button>
