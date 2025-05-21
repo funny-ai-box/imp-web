@@ -151,17 +151,18 @@ const XhsGenerationLogsPage = () => {
     }
   };
   
-  // 解析消息历史
-  const parseMessages = (messagesStr) => {
-    try {
-      if (!messagesStr) return [];
-      return JSON.parse(messagesStr);
-    } catch (e) {
-      console.error('解析消息历史错误:', e);
-      return [];
-    }
-  };
-  
+const parseMessages = (messagesStr) => {
+  try {
+    if (!messagesStr) return [];
+    const messages = JSON.parse(messagesStr);
+    return messages;
+  } catch (e) {
+    console.error('解析消息历史错误:', e);
+    return [];
+  }
+};
+
+
   // 获取状态标签颜色
   const getStatusTagColor = (status) => {
     switch (status) {
@@ -386,31 +387,49 @@ const XhsGenerationLogsPage = () => {
           </TabPane>
           
           <TabPane tab="消息历史" key="2">
-            {messages && messages.length > 0 ? (
-              <div>
-                {messages.map((msg, index) => (
-                  <Card 
-                    key={index}
-                    title={
-                      <Space>
-                        {msg.role === 'user' ? (
-                          <><UserOutlined /> 用户</>
-                        ) : (
-                          <><RobotOutlined /> 助手</>
-                        )}
-                      </Space>
-                    }
-                    style={{ marginBottom: 16 }}
-                    type={msg.role === 'user' ? 'inner' : ''}
-                  >
-                    <Paragraph style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</Paragraph>
-                  </Card>
-                ))}
+  {messages && messages.length > 0 ? (
+    <div>
+      {messages.map((msg, index) => (
+        <Card 
+          key={index}
+          title={
+            <Space>
+              {msg.role === 'user' ? (
+                <><UserOutlined /> 用户</>
+              ) : (
+                <><RobotOutlined /> 助手</>
+              )}
+            </Space>
+          }
+          style={{ marginBottom: 16 }}
+          type={msg.role === 'user' ? 'inner' : ''}
+        >
+          {/* Handle complex content structure */}
+          {Array.isArray(msg.content) ? (
+            msg.content.map((contentItem, contentIndex) => (
+              <div key={contentIndex}>
+                {contentItem.type === 'text' && (
+                  <Paragraph style={{ whiteSpace: 'pre-wrap' }}>{contentItem.text}</Paragraph>
+                )}
+                {contentItem.type === 'image_url' && contentItem.image_url && (
+                  <Image 
+                    src={contentItem.image_url.url}
+                    width={200}
+                    style={{ marginTop: 8 }}
+                  />
+                )}
               </div>
-            ) : (
-              <Empty description="没有消息历史数据" />
-            )}
-          </TabPane>
+            ))
+          ) : (
+            <Paragraph style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</Paragraph>
+          )}
+        </Card>
+      ))}
+    </div>
+  ) : (
+    <Empty description="没有消息历史数据" />
+  )}
+</TabPane>
           
           <TabPane tab="原始响应" key="3">
             {selectedLog.raw_response ? (
